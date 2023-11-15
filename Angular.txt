@@ -1,0 +1,448 @@
+Angular:-
+---------------------
+Section 1: Getting Started
+-------------------------------------------------
+Lect-1:-
+------------------
+>> Angular is a Type Script based Framework which allows you to create reactive Single-Page-Applications(SPAs).
+-----------------------------------------------------------
+Lect-4:-
+------------------
+Understanding Angular Versioning:-
+--------------------------------------------------------
+>> Angular JS(Angular-1)  -> Complete Re-write -> Angular 2 (2016) -> Angular 4 -> Angular10,11,12.
+-------------------------------------------------------------
+Lect-6:-
+---------------------------
+CLI Deep Dive & Troubleshooting:-
+-------------------------------------------------------------
+Lect-8:-
+---------------
+Course Structure:-
+--------------------------------
+>> The Basics.
+>> Components & DataBinding.
+>> Directives.
+>> Services & Dependency Injection.
+>> Routing.
+>> Observables.
+>> Forms.
+>> Pipes.
+>> Http.
+>> Authentication.
+>> Optimizations & NgModules.
+>> Deployment.
+>> Animations and Testing.
+---------------------------------------------------------------
+Lect-10:-
+----------------------
+TypeScript:-
+---------------------
+Angular Life Cycle:-
+-----------------------------
+main.ts -> app.module.ts -> app.component.ts
+-----------------------------------------------------------------
+Creating New Component:-
+--------------------------------------------------
+1. Create a New Folder inside app Folder.
+2. Create one ts file inside your folder. -> server.component.ts
+import {Component} from '@angular/core'
+@Component({
+    selector:'app-server',
+    templateUrl:'./server.component.html',
+    styleUrls:['./server.component.css']
+})
+export class ServerComponent{
+}
+----------------------------------------------------------------------------------------------------------
+add this in appmodule.ts:-
+----------------------------------------
+import {ServerComponent} from './server/server.component'
+
+@NgModule({
+  declarations: [
+    AppComponent,
+    ServerComponent
+  ],
+-------------------------------------------------------------------------
+template: '<app-server></app-server><app-server></app-server>', -> you can also call inline html template
+-------------------------------------------------------------------------------------------------------------------------------------------------------
+Component Styles:-
+-------------------------------------------------------------
+Inline CSS ->  styles: ['h1 { color: red; }']
+--------------------------------------------------------------
+@Component({
+  //selector: '[app-servers]',  // Attribute
+  selector:'.app-servers',  // Class
+)}
+----------------------------------------------------------------------
+<div app-servers></div>  // Call attribute Selector
+<div class="app-servers"></div> // Call Class Selector.
+----------------------------------------------------------------------
+Optional Assignment Solution:-
+---------------------------------------------------
+DataBinding:-
+---------------------------
+>> Data Binding is a communication between Typescript code(Business Logic) and Template(HTML).
+1. String Interpolation {{ }}
+2. Property Binding [property]="data"
+3. Event Binding. (event)="expression"
+4. Two-way Data Binding. [(ngModel)]="data"
+------------------------------------------------------------------------------------------------------------------------------------------
+String Interpolation:-
+----------------------------------------
+export class ServerComponent{
+serverID:number=1000;
+serverStatus:string='Offline';
+getServerStatus()
+{
+    return this.serverStatus;
+}
+}
+---------------------------------------------
+<h1>This is My Server Component</h1>
+<p> Server with ID =  {{serverID}} </p>
+<p> Server Status = {{getServerStatus()}}</p>
+---------------------------------------------------------------
+Property Binding:-
+----------------------------
+allowNewServer=false;
+constructor(){
+    setTimeout(() => {    // Arrow Function.
+        this.allowNewServer=true;
+    },2000);
+}
+-----------------------------------------------
+<button [disabled]="!allowNewServer">Add Server</button>
+{{allowNewServer}}
+----------------------------------------------
+Property Binding Vs. String Interpolation:-
+------------------------------------------------------
+<p [innerText]="allowNewServer"></p>
+-----------------------------------------------------
+Event Binding:-
+---------------------------
+serverCreationStatus='No Server was Created!';
+OnCreateServer()
+{
+    this.serverCreationStatus='Server was Created!!';    
+}
+<button [disabled]="!allowNewServer" (click)="OnCreateServer()">Add Server</button>
+{{serverCreationStatus}}
+---------------------------------------------------------------------------------------------------------------------------
+Passing and Using Data with Event Binding:-
+-----------------------------------------------------------
+serverName='';
+onUpdateServerName(event:Event)
+{
+this.serverName=(<HTMLInputElement>event.target).value;
+}
+-------------------------------------------------------------------------------------
+<label>Server Name</label>
+<input type="text" (input)="onUpdateServerName($event)">
+<p>{{serverName}}</p>
+-------------------------------------------------------------------------------------
+Two-Way Data Binding:-
+----------------------------------------
+Important: For Two-Way-Binding (covered in the next lecture) to work, you need to enable the ngModel  directive. This is done by adding the FormsModule  to the imports[]  array in the AppModule.
+You then also need to add the import from @angular/forms  in the app.module.ts file:
+import { FormsModule } from '@angular/forms'; 
+------------------------------------------------------------------------------------------------------------------------------
+Two-way Data Binding:-
+--------------------------------------
+serverName='TestServer';
+<input type="text" [(ngModel)]="serverName">
+{{serverName}}
+---------------------------------------------------------
+Combining all Forms of DataBinding:-
+----------------------------------------------------------
+serverName='TestServer';
+OnCreateServer()
+{
+    this.serverCreationStatus='Server was Created!!'+this.serverName;    
+}
+--------------------------------------------------------------------------------------------------
+Assignment Solution:35:-
+-------------------------------------
+1. Add a input field which updates a property(username) via two-way Binding.
+2. Output the username property via String Interpolation.
+3. Add a button which may only be clicked if the username is not an empty string.
+4. Upon clicking the button,the username should be reset to an empty string.
+----------------------------------------------------------------------------------------------------
+1. Add a input field which updates a property(username) via two-way Binding.
+username:string=''
+<label>UserName</label>
+<input type="text" [(ngModel)]="username">
+<h3>{{username}}</h3>
+<button [disabled]="username===''" (click)="username=''">Reset User</button>
+--------------------------------------------------------------------------------------------------------
+Directives:-
+-----------------------
+>> Directives are instructions in the DOM.
+---------------------------------------------------------------
+ngIf with an else Condition:-
+---------------------------------------------
+msg:string=''
+msgCreated=false;
+onMsg(){
+this.msgCreated=true;
+this.msg="Hello! How are you?";
+}
+-------------------------------------------------------
+<button (click)="onMsg()">Display</button>
+<h3 *ngIf="msgCreated;else test">{{msg}}</h3>
+<ng-template #test>
+    <h3>
+        I am Not Fine!!!
+    </h3>
+</ng-template>
+--------------------------------------------------------
+Styling Elements Dynamically with ngStyle:-
+--------------------------------------------------------
+Unlike structural directives,attribute directives don't add or remove elements. They only change the element they were placed on.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+<p [ngStyle]="{backgroundColor:getColor()}"> Server Status = {{serverStatus}}</p>
+-------------------------------------------------------------------------------------------------------------------------------
+Outputting List with ngFor:-
+---------------------------------------
+Project Introduction:- 44
+-------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

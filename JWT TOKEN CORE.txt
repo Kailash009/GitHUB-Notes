@@ -1,0 +1,210 @@
+JWT TOKEN AUTHENTICATION and Authorization in CORE:-
+--------------------------------------------------------
+We will follow the below steps to JWT token creation, authentication and authorization:-
+1. ASP.Net Core API Application
+2. Add required packages.
+3. Add Key,Issuer and Audience in appsettings.cs
+4. Register JWT Token for Authentication in Program.cs file.
+5. Create Models (UserLogin, UserModel and UserConstant)
+6. Create Login API Controller (Authenticate user and generate token)
+7. Create User API Controller to authorize user role.
+8. Test the API endpoint in Postman/Swagger with Token.
+---------------------------------------------------------------------------------
+Note: The key must have at least 32 characters. Therefore generate 32 character key.
+"Key": "ZAkuc7QINywnO9PGZKt8jA1MWn4QXbUP", 
+-------------------------------------------------------------------------------
+1. Add ASP.Net Core API Application
+Open visual studio 2022 click on create new project --> Select ASP.Net Core Web API --> Next
+-----------------------------------------
+2. Add Nuget Packages 
+Add the following packages from nuget package manager.
+a) Microsoft.AspNetCore.Authentication.JwtBearer
+b) Microsoft.IdentityModel.Tokens
+c) System.IdentityModel.Tokens.Jwt
+-----------------------------------------
+3. Add setting in appsetting.json
+* To generate the random key use 
+https://www.random.org/strings -> Generate 32 Character Key.
+* For issuer and audience local URL follow the below steps
+Project properties --> Debug --> General --> Open Debug Launch Profile UI
+Select IIS Express and pick the App URL
+"Jwt": {
+    "Key": "ACDt1vR3lXToPQ1g3MyN", //Generate random String from https://www.random.org/strings
+    "Issuer": "http://localhost:28747/", //Project Property-> Debug-> IIS-->App URL (you can local host url as well)
+    "Audience": "http://localhost:28747/"
+  },
+-------------------------------------------------
+4. Register JWT token for Authentication in Program.cs file.
+builder.Services.AddSwaggerGen();
+//JWT Authentication
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options => {
+    options.TokenValidationParameters = new TokenValidationParameters {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = builder.Configuration["Jwt:Issuer"],
+            ValidAudience = builder.Configuration["Jwt:Audience"],
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+    };
+});
+app.UseHttpsRedirection();
+app.UseAuthentication(); // add this also.
+app.UseAuthorization();
+------------------------------------------------------
+5. Create Models (UserLogin, UserModel and UserConstant)
+public class UserModel
+    {
+        public string Username { get; set; }
+        public string Password { get; set; }
+        public string Role { get; set; }
+    }
+-------------------------------------
+public class UserLogin
+    {
+        public string Username { get; set; }
+        public string Password { get; set; }
+    }
+-------------------------------------
+ public class UserConstants
+    {
+        public static List<UserModel> Users = new()
+            {
+                    new UserModel(){ Username="joshi",Password="joshi@123",Role="Admin"}
+            };
+    }
+----------------------------
+6. Create LoginAPI Controller (Authenticate user and generate token)
+Add a new Empty API controller name “LoginController” in controller folder.
+using JWTCoreApp.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
+
+// For Authentication Purpose.
+namespace JWTCoreApp.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class LoginController : ControllerBase
+    {
+        private readonly IConfiguration _config;
+        public LoginController(IConfiguration config)
+        {
+            _config = config;
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        public IActionResult Login([FromBody] UserLogin userLogin)
+        {
+            var user = Authenticate(userLogin);
+            if (user != null)
+            {
+                var token = GenerateToken(user);
+                return Ok(token);
+            }
+            return NotFound("User Not Found!!");
+        }
+        // To Generate Token
+        private string GenerateToken(UserModel user)
+        {
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
+            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+            var claims = new[]
+            {
+                new Claim(ClaimTypes.NameIdentifier,user.Username),
+                new Claim(ClaimTypes.Role,user.Role)
+            };
+            var token = new JwtSecurityToken(_config["Jwt:Issuer"],
+                _config["Jwt:Audience"],
+                claims,
+                expires: DateTime.Now.AddMinutes(15),
+                signingCredentials: credentials);
+            return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+
+        // To Authenticate User
+        private UserModel Authenticate(UserLogin userLogin)
+        {
+            var currentUser = UserConstant.Users.FirstOrDefault(x => x.Username.ToLower() ==
+                userLogin.Username.ToLower() && x.Password == userLogin.Password);
+            if (currentUser != null)
+            {
+                return currentUser;
+            }
+            return null;
+        }
+    }
+}
+---------------------------------------
+7. Create User API Controller to authorize user role
+Add new empty API controller named “UserController.cs” in controller folder.
+using JWTCoreApp.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
+
+// For Authorization Purpose.
+namespace JWTCoreApp.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class UserController : ControllerBase
+    {
+        // For Admin Only
+        [HttpGet]
+        [Route("Admins")]
+        [Authorize(Roles = "Admin")]
+        public IActionResult AdminEndPoint()
+        {
+            var currentUser = GetCurrentUser();
+            return Ok($"Hi ! you are an {currentUser.Role}");
+        }
+        private UserModel GetCurrentUser()
+        {
+            var identity = HttpContext.User.Identity as ClaimsIdentity;
+            if (identity != null)
+            {
+                var userClaims = identity.Claims;
+                return new UserModel
+                {
+                    Username = userClaims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value,
+                    Role = userClaims.FirstOrDefault(x => x.Type == ClaimTypes.Role)?.Value
+                };
+            }
+            return null;
+        }
+    }
+}
+-------------------------------------------------
+8. Test the API endpoint in Postman with Token
+>> Run the application and copy the URL domain from the browser.
+>> Now open the Postman, give the URL with correct API route and select post request --> Body --> Json --> give the value of Username and Password
+After clicking on send button we will get the JWT token in response.
+Now copy this token and add a new Get request in postman and add the JWT token
+https://localhost:7241/api/User/Admins/
+Authorization Tab --> Select Bearer --> Insert token and click on send button to test the authorization with given token.
+If the token is not valid token then we will get 401 Error otherwise will get the below result.
+Finally,So we created the token and did the authentication on the behalf of username and password then check the user authorization.
+------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

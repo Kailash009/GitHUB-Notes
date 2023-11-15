@@ -1,0 +1,116 @@
+    public class SchoolController : Controller
+    {
+        School _sch = new School();
+        private readonly IConfiguration _iconfiguration;
+        public SchoolController(IConfiguration iconfiguration)
+        {
+            _iconfiguration = iconfiguration;
+        }
+        public async Task<IActionResult> Index()
+        {
+            string dbConn = _iconfiguration.GetSection("WebApiUrl").Value;
+            List<School> schList = new List<School>();
+            using (var httpClient = new HttpClient())// For avoiding "The SSL connection could not be established see inner Exception" we have to use "HttpClientHandle".
+            {
+                using (var response = await httpClient.GetAsync(dbConn))
+                {
+                    if (response.IsSuccessStatusCode)
+                    {
+                        string apiResponse = await response.Content.ReadAsStringAsync();
+                        schList = JsonConvert.DeserializeObject<List<School>>(apiResponse);
+                    }
+                }
+            }
+            return View(schList);
+        }
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create(School scObj)
+        {
+            string dbConn = _iconfiguration.GetSection("WebApiUrl").Value;
+            using (var httpClient = new HttpClient())
+            {
+                StringContent content = new StringContent(JsonConvert.SerializeObject(scObj), Encoding.UTF8, "application/json");
+                using (var response = await httpClient.PostAsync(dbConn, content))
+                {
+                    if (response.IsSuccessStatusCode)
+                    {
+                        return RedirectToAction("Index");
+                    }
+                }
+                return View();
+            }
+        }
+        public async Task<ActionResult> Edit(int id)
+        {
+            _sch = new School();
+            string dbConn = _iconfiguration.GetSection("WebApiUrl").Value;
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync(dbConn + id))
+                {
+                    if (response.IsSuccessStatusCode)
+                    {
+                        string apiResponse = await response.Content.ReadAsStringAsync();
+                        _sch = JsonConvert.DeserializeObject<School>(apiResponse);
+                    }
+                }
+            }
+            return View(_sch);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(School scObj,int id)
+        {
+            string dbConn = _iconfiguration.GetSection("WebApiUrl").Value;
+            using (var httpClient = new HttpClient())
+            {
+                StringContent content = new StringContent(JsonConvert.SerializeObject(scObj), Encoding.UTF8, "application/json");
+                using (var response = await httpClient.PutAsync(dbConn+id,content))
+                {
+                    if (response.IsSuccessStatusCode)
+                    {
+                        return RedirectToAction("Index");
+                    }
+                }
+                return View();
+            }
+        }
+        public async Task<IActionResult> Delete(int id)
+        {
+            string dbConn = _iconfiguration.GetSection("WebApiUrl").Value;
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.DeleteAsync(dbConn + id))
+                {
+                    if (response.IsSuccessStatusCode)
+                    {
+                        return RedirectToAction("Index");
+                    }
+                }
+            }
+            return RedirectToAction("Index");
+        }
+        public async Task<IActionResult> Details(int id)
+        {
+            _sch = new School();
+            string dbConn = _iconfiguration.GetSection("WebApiUrl").Value;
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync(dbConn + id))
+                {
+                    if (response.IsSuccessStatusCode)
+                    {
+                        string apiResponse = await response.Content.ReadAsStringAsync();
+                        _sch = JsonConvert.DeserializeObject<School>(apiResponse);
+                    }
+                }
+            }
+            return View(_sch);
+        }
+    }
+}

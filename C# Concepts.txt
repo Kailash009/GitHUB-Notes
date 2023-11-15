@@ -1,0 +1,715 @@
+Params Parameter:-
+------------------------
+>> With the help of params we can pass N number of parameter.
+>> Till now, at the time of function defination and function calling parameter would be same, but if i want to pass N number of parameter at the time of function calling then we use the concept of params parameter.
+using System;
+using System.Text;
+
+namespace BatchHeena3PMWE
+{
+    class Employee
+    {
+        public void sum(params int[] number)
+        {
+            int sum = 0;
+            for(int i=0;i<number.Length;i++)
+            {
+                sum += number[i];
+            }
+            Console.WriteLine("Sum=" + sum);
+        }
+    }
+    class Demo
+    {
+        static void Main()
+        {
+            Employee emp = new Employee();
+            emp.sum(3, 4, 6, 7, 8, 9,5,1, 2, 3, 4,67,89,4,3,2,1,1);
+        }
+    }
+}
+----------------------------------------------------------
+String Interpolation:-
+------------------------------
+>> In string interpolation we use two symbols -  $ and {}.
+>> To print value in better format we use string interpolation or if you want to pass as variable inside string then we use string interpolation.
+---------------------------------------------------------------
+using System;
+using System.Text;
+
+namespace BatchHeena3PMWE
+{
+    class Demo
+    {
+        static void Main()
+        {
+            string str1 = "Hello!";
+            string str2 = "Python is very popular nowadays";
+            string str3 = "we can develop different kind of application";
+            string str4 = "Happy Coding!";
+            string res = $"{str1},{str2},{str3},{str4}";
+            Console.WriteLine(res);
+        }
+    }
+}
+-----------------------------------------------------
+Extension Method:-
+-----------------------
+>> It is used to extend the functionality of your class.
+>> To add something.
+>> It is represented by "downward arrow keys".
+--------------------------------------------------------------
+Guidelines to create extension method:-
+--------------------------------------------
+1. Class must be static.
+2. Method must be static.
+3. Method parameter must contain 'this' keyword.
+-----------------------------------------------------------
+First Ways:-
+------------------
+wap to create extension method to convert lowercase string into upper case.
+using System;
+using System.Text;
+
+namespace BatchHeena3PMWE
+{
+    static class ConvertIntoUpper
+    {
+        public static string ConvertinpoUpperCase(this string str)
+        {
+            if(!string.IsNullOrEmpty(str))
+            {
+                return str.ToUpper();
+            }
+            else
+            {
+                return null;
+            }
+        }
+    }
+    class Demo
+    {
+        static void Main()
+        {
+           string res= ConvertIntoUpper.ConvertinpoUpperCase("harvinder");
+           Console.WriteLine("Result="+res);
+        }
+    }
+}
+-------------------------
+Second Way:-
+-----------------
+Class Library:-
+--------------------
+namespace MyClass
+{
+    public class ExtensionEx  // Class Library
+    {
+        public void display()
+        {
+            Console.WriteLine("Hello Display");
+        }
+        public void print()
+        {
+            Console.WriteLine("Hello Print");
+        }
+        public void welcome()
+        {
+            Console.WriteLine("Hello Welcome");
+        }
+    }
+}
+----------------
+Console Project
+--------------------
+using System;
+using System.Text;
+using MyClass;
+namespace BatchHeena3PMWE
+{ 
+    static class Example
+    {
+        public static void Hello(this ExtensionEx ex)
+        {
+            Console.WriteLine("Hello C# How are you?");
+        }
+    }
+    class Demo
+    {
+        static void Main()
+        {
+            ExtensionEx ex=new ExtensionEx();
+            ex.display();
+            ex.print();
+            ex.welcome();
+            ex.Hello();  // Extension Method
+        }
+    }
+}
+--------------------------------------------
+Lambda Expression:-
+----------------------
+>> it is represented by =>.
+>> it used LINQ [Language Integrated] Query. 
+>> Its execution is fast as compared to normal sql query.
+---------------------------------------------------------------
+wap to print even number only using LINQ query.
+using System;
+using System.Text;
+using MyClass;
+namespace BatchHeena3PMWE
+{ 
+    class Demo
+    {
+        static void Main()
+        {
+            int[] numbers = { 1, 2, 3, 4, 5, 6, 7, 8, 65, 43, 32, 23, 45, 6, 7 };
+            List<int> evennumber = numbers.Where(m => m % 2 == 0).ToList();
+            foreach (int item in evennumber)
+            {
+                Console.WriteLine(item);
+            }
+        }
+    }
+}
+---------------------------------------------------------------
+find city in an array.
+-------------------------
+using System;
+using System.Text;
+using MyClass;
+namespace BatchHeena3PMWE
+{ 
+    class Demo
+    {
+        static void Main()
+        {
+            List<string> cities = new List<string> { "Banglore", "Chennai", "Delhi", "Noida", "Punjab", "Lucknow", "Kanpur" };
+            string city = cities.Find(m => m.Equals("Punjab"));
+            Console.WriteLine(city);
+        }
+    }
+}
+---------------------------------------------------------
+Collection Classes in C#:-
+-----------------------------
+On the basis of collection value it can be divided into two parts-
+1. Non-Generic. -> it contains heterogeneous value.
+using System.Collections;
+1. Array List.
+using System;
+using System.Text;
+using MyClass;
+using System.Collections;
+
+namespace BatchHeena3PMWE
+{ 
+    class Demo
+    {
+        static void Main()
+        {
+            ArrayList al = new ArrayList();
+            al.Add(23);
+            al.Add("Hello");
+            al.Add(DateTime.Now);
+            al.Add(true);
+            al.Add('a');
+            al.Add(45.678);
+            foreach (object item in al)
+            {
+                Console.WriteLine(item);
+            }
+        }
+    }
+}
+---------------------------------------------------------
+2. Hashtable.
+>> it store value in key-value pair.
+using System;
+using System.Text;
+using MyClass;
+using System.Collections;
+
+namespace BatchHeena3PMWE
+{ 
+    class Demo
+    {
+        static void Main()
+        {
+            Hashtable ht = new Hashtable();
+            ht.Add("rt", 23);
+            ht.Add(34.56, true);
+            ht.Add(true, 45.234);
+            ht.Add("po", DateTime.Now);
+            foreach(DictionaryEntry dt in ht)
+            {
+                Console.WriteLine(dt.Key+"="+dt.Value);
+            }
+        }
+    }
+}
+3. Sorted List.
+>> it also store value in key-value pair.
+>> it sort in ascending order using key.
+using System;
+using System.Text;
+using MyClass;
+using System.Collections;
+
+namespace BatchHeena3PMWE
+{ 
+    class Demo
+    {
+        static void Main()
+        {
+            SortedList sl = new SortedList();
+            sl.Add("bv", 45);
+            sl.Add("xc", true);
+            sl.Add("as", 34.56);
+            sl.Add("qw", DateTime.Now);
+            foreach (DictionaryEntry dt in sl)
+            {
+                Console.WriteLine(dt.Key+"="+dt.Value);
+            }
+        }
+    }
+}
+----------------------------------------------------------
+4. Stack.
+>> LIFO (Last in First out.)
+>> Push => Insert an element into stack.
+>> POP => Delete an element from the stack.
+---------------------------------------------------
+using System;
+using System.Text;
+using MyClass;
+using System.Collections;
+
+namespace BatchHeena3PMWE
+{ 
+    class Demo
+    {
+        static void Main()
+        {
+            Stack st = new Stack();
+            st.Push(45);
+            st.Push(true);
+            st.Push("Java");
+            st.Push(DateTime.Now.ToString());
+            st.Push(89.45);
+            st.Pop();
+            st.Pop();
+            foreach (object item in st)
+            {
+                Console.WriteLine(item);
+            }
+        }
+    }
+}
+-----------------------------------------------------
+5. Queue.
+>> FIFO [First in First out]
+>> Enqueue => Insert an element into Queue.
+>> Dequeue => Remove an element from the Queue.
+using System;
+using System.Text;
+using MyClass;
+using System.Collections;
+
+namespace BatchHeena3PMWE
+{ 
+    class Demo
+    {
+        static void Main()
+        {
+            Queue qu = new Queue();
+            qu.Enqueue("Hello");
+            qu.Enqueue(345);
+            qu.Enqueue(898.34);
+            qu.Enqueue(true);
+            qu.Dequeue();
+            qu.Dequeue();
+            foreach (object item in qu)
+            {
+                Console.WriteLine(item);
+            }
+        }
+    }
+}
+-------------------------------------------------------------------
+2. Generic.  -> it contains homogeneous value.
+using System.Collections.Generic;
+1. List.
+using System;
+using System.Text;
+using MyClass;
+using System.Collections;
+
+namespace BatchHeena3PMWE
+{ 
+    class Demo
+    {
+        static void Main()
+        {
+            List<int> lt = new List<int>();
+            int sum = 0;
+            lt.Add(34);
+            lt.Add(56);
+            lt.Add(12);
+            lt.Add(89);
+            lt.Add(100);
+            foreach (int item in lt)
+            {
+                sum += item;
+            }
+                Console.WriteLine(sum);
+            }
+        }
+    }
+2. Dictionary.
+>> it store value in key-value pair.
+using System;
+using System.Text;
+using MyClass;
+using System.Collections;
+
+namespace BatchHeena3PMWE
+{
+    class Demo
+    {
+        static void Main()
+        {
+            Dictionary<int, string> dt = new Dictionary<int, string>();
+            dt.Add(101, "Hockey");
+            dt.Add(102, "FootBall");
+            dt.Add(103, "BaseBall");
+            dt.Add(104, "Cricket");
+            foreach (KeyValuePair<int, string> item in dt)
+            {
+                Console.WriteLine(item.Key + "=" + item.Value);
+            }
+        }
+    }
+}
+-------------------------
+3. Sorted List.
+using System;
+using System.Text;
+using MyClass;
+using System.Collections;
+
+namespace BatchHeena3PMWE
+{
+    class Demo
+    {
+        static void Main()
+        {
+            SortedList<string, int> sl = new SortedList<string, int>();
+            sl.Add("abc", 393);
+            sl.Add("rtt", 12);
+            sl.Add("nbv", 145);
+            sl.Add("mnn", 6773);
+            sl.Add("wee", 400);
+            foreach (KeyValuePair<string,int> item in sl)
+            {
+                Console.WriteLine(item.Key+"="+item.Value);
+            }
+        }
+    }
+}
+-------------------------------------------
+4. Stack.
+LIFO-
+---------
+using System;
+using System.Text;
+using MyClass;
+using System.Collections;
+
+namespace BatchHeena3PMWE
+{
+    class Demo
+    {
+        static void Main()
+        {
+            Stack<string> st = new Stack<string>();
+            st.Push("Java");
+            st.Push("Angular");
+            st.Push("React");
+            st.Push("PHP");
+            st.Push("JS");
+            st.Pop();
+            st.Pop();
+            foreach (string item in st)
+            {
+                Console.WriteLine(item);
+            }
+        }
+    }
+}
+---------------------------------------
+5. Queue.
+using System;
+using System.Text;
+using MyClass;
+using System.Collections;
+
+namespace BatchHeena3PMWE
+{
+    class Demo
+    {
+        static void Main()
+        {
+            Queue<int> qu = new Queue<int>();
+            qu.Enqueue(345);
+            qu.Enqueue(645);
+            qu.Enqueue(745);
+            qu.Enqueue(845);
+            qu.Enqueue(945);
+            qu.Enqueue(445);
+            qu.Dequeue();
+            qu.Dequeue();
+            qu.Dequeue();
+            foreach (int item in qu)
+            {
+                Console.WriteLine(item);
+            }
+        }
+    }
+}
+--------------------------------------------------------
+6. HashSet.
+>> High Performance.
+>> it doesn't return duplicate value.
+using System;
+using System.Text;
+using MyClass;
+using System.Collections;
+
+namespace BatchHeena3PMWE
+{
+    class Demo
+    {
+        static void Main()
+        {
+            HashSet<string> str = new HashSet<string>();
+            str.Add("java");
+            str.Add("python");
+            str.Add("java");
+            str.Add("angular");
+            str.Add("react");
+            str.Add("java");
+            str.Add("python");
+            str.Add("java");
+            str.Add("js");
+            str.Add("php");
+            str.Add("react");
+            foreach (string item in str)
+            {
+                Console.WriteLine(item);
+            }
+        }
+    }
+}
+--------------------------------------------------------------------
+Generic Class:-
+------------------------
+>> It allows you to work with any data type once it is defined.
+>> It helps you to improve performance,type safe and code reuse.
+------------------------------------------------------------------------
+User Defined Generic Class:-
+------------------------------------
+using System;
+using System.Text;
+using MyClass;
+using System.Collections;
+
+namespace BatchHeena3PMWE
+{
+    class Test<T>   // Generic Class
+    {
+        public T t;
+        public Test(T t)
+        {
+            this.t = t;
+        }
+        public void display()
+        {
+            Console.WriteLine(this.t);
+        }
+    }
+    class Demo
+    {
+        static void Main()
+        {
+            Test<int> t1 = new Test<int>(23);
+            t1.display();
+
+            Test<string> t2 = new Test<string>("Angular");
+            t2.display();
+            
+            Test<double> t3 = new Test<double>(23.788);
+            t3.display();
+            
+            Test<bool> t4 = new Test<bool>(true);
+            t4.display();
+        }
+    }
+}
+-----------------------------------------------------------
+Generic Method:-
+----------------------
+using System;
+using System.Text;
+using MyClass;
+using System.Collections;
+
+namespace BatchHeena3PMWE
+{
+    class Test
+    {
+        public void Swap<T>(ref T a,ref T b)  // Generic Method
+        {
+            T c;
+            c = a;
+            a = b;
+            b = c;
+            Console.WriteLine("Swap Values Are:");
+            Console.WriteLine("A="+a+","+"B="+b); // 20 10  // Z Q
+        }
+    }
+    class Demo
+    {
+        static void Main()
+        {
+            int i = 10, j = 20;
+            char p = 'Q';
+            char x = 'Z';
+            double g = 899.34;
+            double h = 1234.45;
+            Console.WriteLine("Before Calling:");
+            Console.WriteLine("I="+i+","+"J="+j); // 10 20
+            Console.WriteLine("P=" + p + "," + "X=" + x); // Q Z
+            Console.WriteLine("G=" + g + "," + "H=" + h);
+            Test t1 = new Test();
+
+            t1.Swap<int>(ref i, ref j);
+            t1.Swap<char>(ref p, ref x);
+            t1.Swap<double>(ref g, ref h);
+            
+            Console.WriteLine("After Calling:");
+            Console.WriteLine("I=" + i + "," + "J=" + j); // 20 10
+            Console.WriteLine("P=" + p + "," + "X=" + x); // Z Q
+            Console.WriteLine("G=" + g + "," + "H=" + h);
+        }
+    }
+}
+--------------------------------------------------------------------
+Delegate -> PENDING
+----------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

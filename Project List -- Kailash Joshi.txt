@@ -1,0 +1,27 @@
+.Net Projects:-
+------------------------------
+The Following of the project list is given below:-
+----------------------------------------------------------------------------
+E-StudyZone.
+Health Center.
+Coffee Shop.
+Shopping Cart.
+Polypreparation.
+Library Management System.
+School Management System.
+Customer Management System.
+Fitness.
+-----------------------------------------------------------------
+Django Projects:-
+--------------------------------
+Bakery
+CMS
+Ecommerce.
+Fitness
+HealthCenter
+Online Eye Glasses.
+Health Center.
+Resume Uploader.
+Library Management System.
+Student Management System.
+---------------------------------------------------------------

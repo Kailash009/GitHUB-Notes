@@ -1,0 +1,168 @@
+Validation in Dot net Core:-
+----------------------------------
+>> To check all the necessary fields filled by the user is correct or not.
+>> Before submitting data to the server we need to check all the necessary field correct or not.
+----------------------
+Types of Validation:-
+----------------------
+There are two types of Validation:-
+1. Client-Side Validation.
+2. Server-Side Validation.
+--------------------------------------------------
+1. Client-Side Validation.
+>> A validation which checks at client machine.[Web Browser]
+--------------
+2. Server Side Validation.
+>> A validation which checks at server machine.
+-----------------------------------------------------------
+Note: As a developer you should know how to perform client as well as server side validation.
+--------------------------------------
+To perform Validation in dot net core we use following namespace-
+using System.ComponentModel.DataAnnotation; -> In this we will get all type of validation in dot net core.
+--------------------------------------------------------------------------
+1. Client Side
+2. Server Side.
+ModelState.isvalid() ->> To check server side validation.
+---------------------------------------------------------------
+Client Side Validation:-
+------------------------------
+>> To perform client side validation dot net core provide one partial view i.e.
+_ValidationScriptsPartial.cshtml
+-----------------------------------------
+There are two ways to call this in .cshtml:-
+--------------------------------------------------
+1. 
+@section Scripts{
+<partial name="_ValidationScriptsPartial"/>
+}
+-------------------------------------------------
+@section Scripts{
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+----------------------------------------
+using System.ComponentModel.DataAnnotations;
+
+namespace BatchAsgarCore.Models
+{
+    public class Customer
+    {
+        [Required(ErrorMessage ="Enter your Name!!")]
+        [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "Use Character only please!")]
+        public string ?Name { get; set; }
+
+        [Required(ErrorMessage = "Enter your Age!!")]
+        [StringLength(2, ErrorMessage = "Max 2 digits")]
+        [RegularExpression("([0-9]+)", ErrorMessage = "Use Number only please!")]
+        public string ?Age { get; set; }
+
+        [Required(ErrorMessage = "Enter your MobileNo!!")]
+        [RegularExpression(@"^(\d{10})$", ErrorMessage = "Enter 10 Digit Only!!")]
+        public string  ?MobileNo { get; set; }
+
+        [Required(ErrorMessage = "Enter your EmailId!!")]
+        [RegularExpression("^[a-zA-Z0-9_\\.-]+@([a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$", ErrorMessage = "E-mail is not valid")]
+        public string ?EmailID { get; set; }
+
+        [Required(ErrorMessage = "Enter your Password!!")]
+        [DataType(DataType.Password)]
+        [RegularExpression("^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$", ErrorMessage = "Minimum eight characters, at least one letter, one number and one special character")]
+        public string ?Password { get; set; }
+        [DataType(DataType.Password)]
+        [Compare("Password")]
+        public string ?ConfirmPassword { get; set; }
+    }
+}
+-----------------------------------------------------
+using BatchAsgarCore.Models;
+using Microsoft.AspNetCore.Mvc;
+
+namespace BatchAsgarCore.Controllers
+{
+    public class ValidationExController : Controller
+    {
+        public IActionResult Index()
+        {
+            return View();
+        }
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Create(Customer cusObj)
+        {
+            if(ModelState.IsValid)
+            {
+                // Save record into Database.
+            }
+            else
+            {
+                ModelState.AddModelError(string.Empty, "Error in Model!!");
+            }
+            return View();
+        }
+    }
+}
+----------------------------------------
+@model Customer
+
+<form asp-action="Create" asp-controller="ValidationEx" method="post">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <label>Enter Customer Name</label>
+    <input type="text" class="form-control" asp-for="Name"/>
+    <span asp-validation-for="Name" class="text-danger"></span> <br/>
+    <label>Enter Customer Age</label>
+    <input type="text" class="form-control" asp-for="Age" />
+    <span asp-validation-for="Age" class="text-danger"></span><br />
+    <label>Enter Customer MobileNo</label>
+    <input type="text" class="form-control" asp-for="MobileNo" />
+    <span asp-validation-for="MobileNo" class="text-danger"></span><br />
+    <label>Enter Customer EmailID</label>
+    <input type="text" class="form-control" asp-for="EmailID" />
+    <span asp-validation-for="EmailID" class="text-danger"></span><br />
+    <label>Enter Customer Password</label>
+    <input type="password" class="form-control" asp-for="Password" />
+    <span asp-validation-for="Password" class="text-danger"></span><br />
+    <label>Enter Customer Confirm Password</label>
+    <input type="password" class="form-control" asp-for="ConfirmPassword" />
+    <input type="submit" value="Register" class="mt-3 btn btn-warning"/>
+</form>
+@* @section Scripts{
+    <partial name="_ValidationScriptsPartial"/>
+} *@
+
+@section Scripts{
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+--------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

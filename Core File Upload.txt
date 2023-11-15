@@ -1,0 +1,16 @@
+  private string UploadedFile(EmployeeModel model)
+        {
+            //save image file into folder
+            string uniqueFileName = null;
+            if (model.emp_image_file != null)
+            {
+                string uploadsFolder = Path.GetFullPath("wwwroot") + "\\emp_image";
+                uniqueFileName = Guid.NewGuid().ToString() + "_" + model.emp_image_file.FileName;
+                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                using (var FileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    model.emp_image_file.CopyTo(FileStream);
+                }
+            }
+            return uniqueFileName;
+--------------------------------------------------------------------------

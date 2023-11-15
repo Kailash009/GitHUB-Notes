@@ -1,0 +1,55 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CMS</title>
+</head>
+<body bgcolor="cyan">
+    <h1 align="center">CUSTOMER MANAGEMENT SYSTEM</h1>
+    <table width="40%" height="40%" align="center" bgcolor="pink" border="3">
+        <tr>
+            <td>Customer ID:</td>
+            <td><input type="text" id="txtId"/> </td>
+        </tr>
+        <tr>
+            <td>Name:</td>
+            <td><input type="text" id="txtName"/> </td>
+        </tr>
+        <tr>
+            <td>Address:</td>
+            <td><input type="text" id="txtAddress"/> </td>
+        </tr>
+        <tr>
+            <td>Mobile No:</td>
+            <td><input type="text" id="txtMobile"/> </td>
+        </tr>
+        <tr>
+            <td align="center" colspan="2"> 
+                <button onclick="add_click()">ADD</button> 
+                <button onclick="search_click()">SEARCH</button> 
+                <button onclick="modify_click()">MODIFY</button> 
+                <button onclick="delete_click()">DELETE</button> 
+            </td>
+        </tr>
+        <tr>
+            <td align="center" colspan="2"> 
+                <button onclick="first_click()">FIRST</button> 
+                <button onclick="prev_click()">PREV.</button> 
+                <button onclick="next_click()">NEXT</button> 
+                <button onclick="last_click()">LAST</button> 
+            </td>
+        </tr>
+        <tr>
+            <td align="center" colspan="4"> 
+                <button onclick="showall_click()">SHOW ALL CUSTOMER</button>
+            </td>
+        </tr>
+    </table>
+    <br/>
+    <div id="div_table">
+
+    </div>
+
+    <script src="cms.js"></script>
+</body>
+</html>

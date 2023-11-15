@@ -1,0 +1,31 @@
+Write a complete Java Program that will ask for a String type input (the String will only contain digits) and print the
+frequency of digits in the String in lexicographically sorted order (see the sample input/output for details). 
+package joshidemo;
+import java.util.*;  // * represent Import ALL packages inside UTIL
+public class Demo {  
+	public static void main(String args[])  
+	{
+		String str;
+		char ch;
+		int []freq=new int[10];
+Scanner sc=new Scanner(System.in); 
+	System.out.println("Enter the String=");
+		str=sc.nextLine();
+		for(int i=0;i<str.length();i++)
+		{
+			if(Character.isDigit(str.charAt(i)))
+			{
+				int digit=Character.getNumericValue(str.charAt(i));
+				freq[digit]++;
+			}
+		}
+        // Print the frequency of digits in lexicographically sorted order
+        System.out.println("Frequency of digits in the string:");
+        for (int i = 0; i < 10; i++) {
+            if (freq[i] > 0) {
+                System.out.println(i + " : " + freq[i]);
+            }
+	}
+	}
+}
+-----------------------------------------------------------------------	

@@ -1,0 +1,206 @@
+var a=5;
+var b=6;
+var res=a&&b; // True&&True -> right side value.
+console.log(res); // right side value
+---------------------------------------------------
+Note: Anything except numeric 0 is 1.
+---------------------------------------------------
+0 -> False
+1 -> True
+----------------------
+2 -> True
+-8787 -> True
+'hello' -> true.
+----------------------
+Type Casting:-
+------------------
+>> It is technique by which we can convert one data type value into another data type.
+-------------
+General Syntax:-
+---------------------
+Type(expression)
+--------------------
+Number(a); or parseInt()
+parseFloat()
+----------------------------
+// const prompt=require('prompt-sync')();
+// var a=prompt('Enter Number');
+// var b=parseFloat(a);
+// console.log(a,typeof(a),b,typeof(b));
+
+
+// var a=34;
+// var b=String(a);
+// console.log(a,typeof(a),b,typeof(b));
+----------------------------------------------------
+Control Statement:-
+----------------------
+	a) Conditional.
+if.
+Syntax:-
+--------------
+if(condition)
+{
+statement;
+}
+b) if-else.
+if(condition)
+{
+statement1;
+}
+else
+{
+statement2;
+}
+---------------------------------------
+wap to find the greatest in two no.
+const prompt=require('prompt-sync')();
+var a=parseInt(prompt('Enter First Number'));
+var b=parseInt(prompt('Enter Second Number'));
+if(a>b)
+{
+    console.log('a is greater');
+}
+else
+{
+    console.log('b is greater');
+}
+--------------------------------------------------
+Ternary:-
+----------------
+>> it require three operands.
+Syntax:-
+-------------
+(Condition)?True:False;
+---------------------------
+var a=34,b=45,res;
+res=(a>b)?a:b;
+console.log(res); // 45
+---------------------------
+wap to check number is equal to 5 or 7 or not 5 or 7.
+--------------------------------------------------------
+const prompt=require('prompt-sync')();
+var a=parseInt(prompt('Enter First Number'));
+var res=(a==5||a==7)?'A is 5 or 7':'A is not 5 or 7'
+console.log(res);
+---------------------------------------------------
+const prompt=require('prompt-sync')();
+// var a=parseInt(prompt('Enter First Number'));
+var a=5;
+if(a==5)
+{
+    console.log('5 is equal to 5')
+    console.log('Hello');
+}
+else 
+{
+    console.log('5 is not equal to 5')
+}
+console.log('End');
+----------------------------------------------
+if-else-if
+>> it is used to provide multiple condition in a program.
+Syntax:-
+--------------
+if(condition1)
+{
+statement1;
+}
+else if(condition2)
+{
+statement2;
+}
+else if(condition3)
+{
+statement3;
+}
+else 
+{
+statement4;
+}
+------------------------------------------
+wap to check number 5 and 7 or not 5 and 7.
+const prompt=require('prompt-sync')();
+var a=parseInt(prompt('Enter First Number'));
+//var b=parseInt(prompt('Enter Second Number'));
+if(a==5)
+{
+    console.log('5 is equal to 5')
+}
+else if(a==7)
+{
+    console.log(a,' is equal to 7')
+}
+else 
+{
+console.log(a,' is not equal to 5 or 7.')    
+}
+console.log('End');
+--------------------------------------------------
+wap to input a character and check its vowel or consonant.
+--------------------------------------------------------------
+const prompt=require('prompt-sync')();
+var ch=prompt('Enter Character=').toLowerCase();
+if(ch=='a'||ch=='e'||ch=='i'||ch=='o'||ch=='u')
+{
+console.log(ch,' is Vowel');
+}
+else 
+{
+    console.log(ch,' is Consonant');
+}
+---------------------------------------------------
+Assignment Question of Conditional Statement:-
+-----------------------------------------------------
+1. wap to input two number and find the greatest number using if-else and ternary.
+2. wap to input three number and find the greatest number using if-else and ternary.
+3. wap to input a number and check its even or odd.
+4. wap to input a year and check its leap year or not
+5. wap to input a character and check its Vowel or Consonant. -- Done
+6. wap to input a character and check character is in Upper Case,Lower Case,Digit or Special Symbol.
+7. wap to input five subject marks and find its total and percentage and find the following grade acc. to percentage-
+100%-90% -> A+
+90%-80% ->  A
+80%-70% ->  B
+70%-60% ->  C
+60%-50% ->  D
+<50% ->     F
+------------------------------------------------------------------
+8. wap to make calculator program using if-else-if
++  -> Add
+- -> Sub
+* -> Mult
+/ -> Div
+% -> Rem
+-------------------------
+9. wap to find the day of week using switch.
+10. wap to find the year of month using switch.
+11. wap to check number is absolute or not.
+12. wap to check number is positive,negative or zero.
+----------------------------------------------------------------
+var a=5,b=10
+a=a+b; a= 15
+b=a-b; b=5
+a=a-b; a= 10
+	b) Loop. -- Pending
+----------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,178 @@
+Authentication and Authorization:-
+-------------------------------------------------------
+services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(); // addservice Here
+services.AddControllersWithViews();
+-----------------------------------------------------------------------------
+app.UseStaticFiles();  //Add Middleware Here
+app.UseCookiePolicy();
+app.UseAuthentication();
+app.UseRouting();
+Authentication:-
+----------------------------
+public class AccountController : Controller
+    {
+        public IActionResult Login()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Login(string userName, string password)
+        {
+            if (!string.IsNullOrEmpty(userName) && string.IsNullOrEmpty(password))
+            {
+                return RedirectToAction("Login");
+            }
+
+            //Check the user name and password
+            //Here can be implemented checking logic from the database
+            ClaimsIdentity identity = null;
+            bool isAuthenticated = false;
+
+            if (userName == "Admin" && password == "password")
+            {
+                //Create the identity for the admin
+                    identity = new ClaimsIdentity(new[] {
+                    new Claim(ClaimTypes.Name, userName),
+                    new Claim(ClaimTypes.Role, "Admin")
+                }, CookieAuthenticationDefaults.AuthenticationScheme);
+
+                isAuthenticated = true;
+            }
+
+            if (userName == "Kailash" && password == "joshi")
+            {
+                //Create the identity for the user
+                identity = new ClaimsIdentity(new[] {
+                    new Claim(ClaimTypes.Name, userName),
+                    new Claim(ClaimTypes.Role, "User")
+                }, CookieAuthenticationDefaults.AuthenticationScheme);
+
+                isAuthenticated = true;
+            }
+
+            if (isAuthenticated)
+            {
+                var principal = new ClaimsPrincipal(identity);
+                var login = HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+                return RedirectToAction("Index", "AuthSecurity");
+            }
+            return View();
+        }
+        public IActionResult Logout()
+        {
+            var login = HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToAction("Login");
+        }
+    }
+-------------------------------------------------------------------------------------
+Login.cshtml:-
+------------------------
+<h1>LOGIN PAGE!!!</h1>
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            <h2><strong>Login Page </strong></h2><br />
+            <form asp-action="login" method="post">
+                <div class="form-group">
+                    <label>User Name</label>
+                </div>
+                    <input type="text" class="form-control" id="userName" name="userName" placeholder="Enter user name">
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" class="form-control" name="password" id="password" placeholder="Password">
+                </div>
+                <div class="form-check">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button class="btn btn-info" type="reset">Reset</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+-----------------------------------------------------------------------------
+ public class AuthSecurityController : Controller
+    {
+        [Authorize(Roles = "Admin, User")]
+        public IActionResult Index()
+        {
+            return View();
+        }
+        [Authorize(Roles = "Admin")]
+        public IActionResult Setting()
+        {
+            return View();
+        }
+        public IActionResult About()
+        {
+            ViewData["Message"] = "Your application description page.";
+
+            return View();
+        }
+        public IActionResult Contact()
+        {
+            ViewData["Message"] = "Your contact page.";
+
+            return View();
+        }
+----------------------------------------------------------------------------------------
+Index.cshtml:-
+-----------------------
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h2><strong>Home Page </strong></h2><br /><br />
+            Hello @User.Identity.Name !, Role @User.FindFirst(claim => claim.Type == System.Security.Claims.ClaimTypes.Role)?.Value
+            <a asp-action="logout" asp-controller="account">
+                Logout
+            </a>
+            <br />
+            <br />
+            <h2>Welcome to Asp.Net Core Authentication and Authorization!!</h2>
+        </div>
+    </div>
+</div>
+---------------------------------------------------------------------------------
+Setting.cshtml:-
+-----------------------
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h2><strong>Setting Page </strong></h2><br /><br />
+            Hello @User.Identity.Name !, Role @User.FindFirst(claim => claim.Type == System.Security.Claims.ClaimTypes.Role)?.Value
+            <a asp-action="logout" asp-controller="account">
+                Logout
+            </a>
+            <br />
+            <br />
+            <h4>Admin role user can only access this page!!</h4>
+        </div>
+    </div>
+</div>
+-----------------------------------------------------------------
+About.cshtml:-
+-----------------------
+<h3>@ViewData["Message"]</h3>
+
+<p>Use This area to provide additional information.</p>
+-------------------------------------------------------------------
+Contact.cshtml:-
+-----------------------
+<h3>@ViewData["Message"]</h3>
+
+<address>
+    One Microsoft Way<br />
+    Redmond, WA 98052-6399<br />
+    <abbr title="Phone">P:</abbr>
+    425.555.0100
+</address>
+
+<address>
+    <strong>Support:</strong> <a href="mailto:programmer.joshi@gmail.com">joshi@gmail.com.com</a><br />
+    <strong>Marketing:</strong> <a href="mailto:joshi.programmer@gmail.com">chandra@gmail.com</a>
+</address>
+-----------------------------------------------------------------

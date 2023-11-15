@@ -1,0 +1,180 @@
+Authentication and Authorization:-[DigitalTechJoint]
+------------------------------------------------------
+>> Asp.net Core identity provides the required functionality to add functionality to register,sign in,sign out,manage users,password,profile,authorization,roles,claims,tokens,email confirmation and much more.
+>> The entire suite of user Management(Authentication as well as Authorization) implementation can be easily applied in application using the Identity Package.
+>> It also provide for external integration services for authentication like Facebook,Google,Microsoft Account and Twitter.
+---------------------------------------------------
+EF Code First:-
+---------------------
+1. Create Connection String:-
+{
+  "ConnectionStrings": {
+    "DefaultConnection": "server=DESKTOP-G2S1514\\SQLEXPRESS;database=SalesCRM;Integrated Security=True;TrustServerCertificate=True;Encrypt=True;"
+  },
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  },
+  "AllowedHosts": "*"
+}
+---------------------------------------------------------------------------
+2. Create Model:-
+namespace SalesManagementIdentity.Models
+{
+    public class Sale
+    {
+        public int sid { get; set; }
+        public string  ?FirstName { get; set; }
+        public string ?LastName { get; set; }
+        public string ?Mobile { get; set; }
+        public string ?Email { get; set; }
+        public string ?LeadSource { get; set; }
+    }
+}
+---------------------------------------------------
+3. Now Install Packages.
+a) Microsoft.EntityFrameCore.
+b) Microsoft.EntityFrameCore.SqlServer
+c) Microsoft.EntityFrameCore.Tools
+---------------------------------------------------
+4. Now create one folder as Data and then create Context Class name as ApplicationDbContext.
+using Microsoft.EntityFrameworkCore;
+using SalesManagementIdentity.Models;
+
+namespace SalesManagementIdentity.Data
+{
+    public class ApplicationDbContext:DbContext
+    {
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options):base(options)
+        {
+            
+        }
+        public DbSet<Sale> SalesLead { get; set; }
+    }
+}
+----------------------------
+5. Inject the Connection String to Context Class in program.cs
+program.cs
+builder.Services.AddControllersWithViews();
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+{
+options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+});
+----------------------------
+6. Now Run Migration Command.
+add-migration 'migrationName'
+update-database
+------------------------------------
+7. Right Click on Controller -> Add -> New Scaffold Item -> MVC Controller with Views using EF and add link in _layout.cshtml to see all sales lead.
+8. Now Run the Project and add Some Lead.
+9. Now we want to Secure this project to perform signup,signIn,logout therefore now identity in your project.
+10. Right Click on your Project -> Add -> New Scaffold Item -> Identity -> check -> Override all Files and add only DbContextClass and then click Add.
+Note:- 
+First install package -> Microsoft.AspNetCore.Identity.EntityFrameworkCore (6.0.13)
+Before follow "step-10" do this we need to change in our context class:-
+"DbContext to identityDbContext". Once Build and check there is an error or not in your Project.
+Note:- Identity work with razor pages and it is very essential to understand how razor pages works and what are the events of razor pages.
+11. You will get all the razor pages in Areas-> Identity -> Pages -> Account -> here we focus on three files - [ Register.cshtml,Login.cshtml,Logout.cshtml ].
+then in Shared Folder you get -> _LoginPartial.cshtml.
+and if you see in program.cs one new code is added automatically:-
+builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+    .AddEntityFrameworkStores<ApplicationDbContext>();
+var app = builder.Build();
+12. Now call Partial View [ _LoginPartial.cshtml ] in your _Layout.cshtml.
+</div>
+<partial name="_LoginPartial"/>
+</nav>
+13. Now Run and click register and login but you are not able to see the page why because these are razor pages you need to add one service in middleware as-
+app.MapRazorPages(); //  add this line to run razor pages.
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
+14. Now Run Migration Command again for Identity tables- It creates Total 7 Tables.
+add-migration 'nameofmigration'
+update-database
+15. Now register two user and login if you see you can access sales lead with or without login. To ensure when user login then only you can see sales lead use [Authorize] Attribute in your Sales Controller which is defined into the following namespace - 'using Microsoft.AspNetCore.Authorization;'
+------------------------------------------------------------------------------
+Part-2:- Role Based Authorization:-
+----------------------------------------
+Authentication is the process of verifying who a user is.
+Authorization is the process of verifying what they have access to.
+------------------------------------------------------------------------
+Step-1 Enable Roles.
+1. AddDefaultTokenProviders()
+2. AddRoles<IdentityRole>()
+---------------------------------------------
+builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddDefaultTokenProviders()
+    .AddRoles<IdentityRole>()
+    .AddEntityFrameworkStores<ApplicationDbContext>();
+----------------------------------------------------------------------
+Step-2:-
+----------------
+Create One Controller - AppRoles.
+-------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

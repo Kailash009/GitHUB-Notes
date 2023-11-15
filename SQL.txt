@@ -1,0 +1,4 @@
+sql server (Sql Express)
+sql server agent  -> start agent from services.msc then sql server start automatically.
+sql server browser
+---------------------------------------

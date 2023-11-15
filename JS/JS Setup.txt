@@ -1,0 +1,32 @@
+1. Install Node JS -> https://nodejs.org/en/download/
+2. Check node is working or not
+open cmd type -  node --version
+3. Check npm is working or not. 
+open cmd and type npm --version
+4. Open Visual Studio Code and click Extension Button.
+	a) In search bar search "javascript es6" and select the first option "Javascript(ES6) code snippets"
+	b) Now search "Code Runner" and install Code Runner.
+         To Run the code  -   Ctrl+Alt+n
+	 To Stop the code -   Ctrl+Alt+m
+5. Now you can create .js file and start writing java script code.
+      console.log("Welcome to JS")
+6. Now we have to install a node package to take user input from terminal or console.
+	a) Open New terminal and type "npm install prompt-sync"
+	b) If you want to use prompt in your program then type below line at the top of program.
+	const prompt=require('prompt-sync')();
+	c) After the above line you can write your program and also able to run the program but there
+	is a problem the your are not able to collect input from the user.
+	d) Now you have to do one more setting.
+	Go to file->Preferences-Settings
+	a. Type "Run in Terminal".
+	b. Select Code-Runner:"Run in Terminal". (Select the CheckBox).
+-----------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+

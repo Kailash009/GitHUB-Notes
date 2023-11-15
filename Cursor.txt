@@ -1,0 +1,93 @@
+CURSORS:-
+-------------------------------------------
+>> Cursor is a temporary memory/Temporary workstation.
+>> It will allocate by DB Server at time of DML operations are performing by user on DB Tables.
+>> For storing Database Tables.
+Types of Cursors:-
+1) Implicit Cursors.
+2) Explicit Cursors.
+--------------------------------------------------------------------------------
+1) Implicit Cursors-
+>> It is a Default cursor of sqlserver database.
+>> This cursor memory is allocate by DB Server,when we perform DB operations.
+2) Explicit Cursors-
+>> These cursors are created by user.
+>> Fetch data from table in Row-by-Row manner.
+---------------------------------------------------------------------------------
+Work with Explicit Cursors-
+-----------------------------------------------
+Step1: DECLARE CURSOR OBJECT.
+Syntax-
+--------------
+Declare <Cursor Name> Cursor scroll for Select * from <TN>
+Step2: OPEN CURSOR CONNECTION.
+Syntax-
+-------------
+Open <Cursor Connection>
+Step3: FETCH DATA FROM CURSOR.
+Syntax-
+-------------
+Fetch Next/First/Last/Prior/Absolute N/Relative N 
+from <Cursor Name> [Into Variables]
+Step4: CLOSE CURSOR CONNECTION.
+Syntax-
+-------------
+Close <Cursor Name>
+Step5: DEALLOCATE CURSOR MEMORY.
+Syntax-
+-------------
+Deallocate <Cursor Name>
+----------------------------------------
+--Methods in Cursor
+--Next -- Fetching Record from Forward Direction.
+--First -- Fetching Record from First Row
+--Last --Fetching Record from Last Row
+--Prior -- Fetching Record from Previous/Backward direction Row
+--Absolute N - (Fixed/Exact) - Fetching Record the Exact position of the row.
+--Relative N - Fetching Record from inc or dec way.
+---------------------------------------------------------------------------------------
+Creating Explicit Cursor-(Without Cursor Variable)-
+---------------------------------------------------------------------------------------
+create table tbl_Emp
+(
+Eid int,
+Name nvarchar(40),
+salary money
+) 
+------------------------------------------------------------
+declare c1 cursor scroll for select * from tbl_Emp
+open c1
+fetch last from c1
+fetch prior from c1
+fetch absolute 7 from c1
+fetch relative -2 from c1
+fetch first from c1
+fetch next from c1
+close c1
+deallocate c1
+--------------------------------------------------------------
+Creating Explicit Cursor-(With Cursor Variable)-
+---------------------------------------------------------------
+declare c1 cursor scroll for select  eid,Name from tbl_Emp
+declare @eid int,@ename nvarchar(40)
+open c1
+fetch last from c1 into @eid,@ename
+print 'The Employee:'+' '+@ename+' '+'ID is:'+cast(@eid as nvarchar)
+
+fetch prior from c1 into @eid,@ename
+print 'The Employee:'+' '+@ename+' '+'ID is:'+cast(@eid as nvarchar)
+
+fetch absolute 7 from c1 into @eid,@ename
+print 'The Employee:'+' '+@ename+' '+'ID is:'+cast(@eid as nvarchar)
+
+fetch relative 2 from c1 into @eid,@ename
+print 'The Employee:'+' '+@ename+' '+'ID is:'+cast(@eid as nvarchar)
+
+fetch first  from c1 into @eid,@ename
+print 'The Employee:'+' '+@ename+' '+'ID is:'+cast(@eid as nvarchar)
+
+fetch next from c1 into @eid,@ename
+print 'The Employee:'+' '+@ename+' '+'ID is:'+cast(@eid as nvarchar)
+close c1
+deallocate c1
+---------------------------------------------------------------------------------------------

@@ -1,0 +1,332 @@
+Array:- ??
+----------
+When a user want to store multiple values into a single variable then we use the concept of array.
+int a=2,b=3,c=4;
+-----------------------------------
+Array:-
+-----------
+>> An array is a collection of similar type of data items,which takes contiguous memory allocation.
+>> array is collection of homogeneous elements.
+>> In array we create fixed size of element.
+>> In array we can access any element randomly.
+-----------------------------------------------------
+Types of Array:-
+--------------------------
+There are three types of array in c#:-
+1. 1-D Array.
+2. 2-D Array.
+3. Jagged Array.
+-----------------------------------------------------------------
+1. 1-D Array:-
+>> which contains one dimension.
+>> it is also known as Sequential array.
+Array Initialization:-
+int[] a = new int[6] { 23, 56, 78, 12, 34, 565 };
+---------------------------------------------------------
+using System;
+
+namespace Batch10AM21Aug
+{
+    class Demo
+    {
+        static void Main() // Entry Point
+        {
+            int[] a = new int[6] { 23, 56, 78, 12, 34,455 };
+            for(int i=0;i<=5;i++)
+            {
+                Console.WriteLine(a[i]);
+            }
+        }
+    }
+}
+using System;
+
+namespace Batch10AM21Aug
+{
+    class Demo
+    {
+        static void Main() // Entry Point
+        {
+            int[] a ={ 23, 56, 78, 12, 34,455,783,4,2,1,3,45,6,7,8};
+            for(int i=0;i<a.Length;i++)
+            {
+                Console.WriteLine(a[i]);
+            }
+        }
+    }
+}
+
+----------------------------------------------------------
+Array Declaration:-
+----------------------------------------
+using System;
+
+namespace Batch10AM21Aug
+{
+    class Demo
+    {
+        static void Main() // Entry Point
+        {
+            int[] a = new int[7];
+            Console.WriteLine("Enter 7 Element");
+            for(int i=0;i<7;i++)
+            {
+                a[i] = Convert.ToInt32(Console.ReadLine());
+            }
+            Console.WriteLine("Print 7 Element");
+            for (int i = 0; i < 7; i++)
+            {
+                Console.WriteLine(a[i]);
+            }
+        }
+    }
+}
+---------------------------------------------------------
+or
+-------------
+using System;
+
+namespace Batch10AM21Aug
+{
+    class Demo
+    {
+        static void Main() // Entry Point
+        {
+            int size;
+            Console.WriteLine("Enter the size of array");
+            size = Convert.ToInt32(Console.ReadLine());//3
+            int[] a = new int[size];
+            Console.WriteLine("Enter Element");
+            for(int i=0;i<size;i++) // 0<3 0 1 2
+            {
+                a[i] = Convert.ToInt32(Console.ReadLine());
+            }
+            Console.WriteLine("Print  Element");
+            for (int i = 0; i < size; i++)
+            {
+                Console.WriteLine(a[i]);
+            }
+        }
+    }
+}
+-------------------
+Assignment Question of 1-D:-
+-----------------------------
+1. wap to input element in 1-D and find the sum and average.
+2. wap to input element in 1-D and print even and odd no. and also count total even and odd number.
+3. wap to input 5 elements of array and find the largest and smallest no. among them.
+4. wap to input 1-D element and print them.
+5. wap to input 1-D element and search specific element.
+----------------------------------------------------------------------------
+2-D Array:-
+----------------
+>> it is collection of elements in form of matix.(Rows and Column).
+------------
+1. Initialization.
+int[,] a = new int[3, 4] { { 12, 34, 56, 78 }, { 543, 876, 4, 332 }, { 7, 8, 9, 2 }};
+using System;
+
+namespace Batch10AM21Aug
+{
+    class Demo
+    {
+        static void Main() // Entry Point
+        {
+            int[,] a = new int[3, 4] { { 12, 34, 56, 78 }, { 543, 876, 4, 332 }, { 7, 8, 9, 2 } };
+            Console.WriteLine(a[2,1]);//8
+            Console.WriteLine(a[1,3]);//332
+            Console.WriteLine(a[0,3]);//78
+        }
+    }
+}
+using System;
+
+namespace Batch10AM21Aug
+{
+    class Demo
+    {
+        static void Main() // Entry Point
+        {
+            int[,] a = new int[3, 4] { { 12, 34, 56, 78 }, { 543, 876, 4, 332 }, { 7, 8, 9, 2 } };
+            for(int i=0;i<3;i++)
+            {
+                for(int j=0;j<4;j++)
+                {
+                    Console.Write(a[i,j]+"\t");
+                }
+                Console.WriteLine();
+            }
+        }
+    }
+}
+-----------------------------------------------------------------------
+2. Declaration:
+------------------------
+using System;
+
+namespace Batch10AM21Aug
+{
+    class Demo
+    {
+        static void Main() // Entry Point
+        {
+            int[,] a = new int[4, 3]; // Declaration
+            Console.WriteLine("Enter 4X3 Elements");
+            for(int i=0;i<4;i++)
+            {
+                for(int j=0;j<3;j++)
+                {
+                    a[i, j] = Convert.ToInt32(Console.ReadLine());
+                }
+            }
+            Console.WriteLine("Print 4X3 Elements");
+            for (int i = 0; i < 4; i++)
+            {
+                for (int j = 0; j < 3; j++)
+                {
+                    Console.Write(a[i,j]+"\t");
+                }
+                Console.WriteLine();
+            }
+        }
+    }
+}
+-----------------------
+or
+------------
+using System;
+
+namespace Batch10AM21Aug
+{
+    class Demo
+    {
+        static void Main() // Entry Point
+        {
+            int row, col;
+            Console.WriteLine("Enter Rows and Cols you want=");
+            row = Convert.ToInt32(Console.ReadLine());
+            col = Convert.ToInt32(Console.ReadLine());
+            int[,] a = new int[row, col]; // Declaration
+            Console.WriteLine("Enter Elements");
+            for(int i=0;i<row;i++)
+            {
+                for(int j=0;j<col;j++)
+                {
+                    a[i, j] = Convert.ToInt32(Console.ReadLine());
+                }
+            }
+            Console.WriteLine("Print Elements");
+            for (int i = 0; i < row; i++)
+            {
+                for (int j = 0; j < col; j++)
+                {
+                    Console.Write(a[i,j]+"\t");
+                }
+                Console.WriteLine();
+            }
+        }
+    }
+}
+------------------------------------------------------
+Assignmnet of 2-D:-
+-------------------------
+1. wap to input 2-D elements and find sum and avg.
+2. wap to input 2-D elements and print even and odd number.
+3. wap to input 3X3 elements and print only diagonal elements.
+4. wap to input 3X3 elements and print the transpose element.
+5. wap to input two 3X3 elements and find its sum and subtract.
+6. wap to input two 3X3 element and find the multiplication.
+7. wap to input two 3X3 element and find the sum of both the diagonal.
+---------------------------------------------------------------------------
+Jagged Array:-
+------------------
+>> It is also known as 'Array of Arrays'.
+>> when a user want to display/print differnt array element together then jagged array used.
+>> In jagged array we combine different size of array into one array it is known as jagged array.
+-------------------------------
+For Example:-
+------------------
+using System;
+
+namespace Batch10AM21Aug
+{
+    class Demo
+    {
+        static void Main() // Entry Point
+        {
+            int [][]a= new int[4][];  // Jagged Array.
+            a[0] = new int[3] { 34, 56, 78};
+            a[1] = new int[6] { 67, 87, 443, 21, 11, 1 };
+            a[2] = new int[2] { 123, 456 };
+            a[3] = new int[4] { 6, 7, 8, 9 };
+            foreach (int[] ary in a)
+            {
+                foreach (int res in ary)
+                {
+                    Console.Write(res+"\t");
+                }
+                Console.WriteLine();
+            }
+        }
+    }
+}
+-------------------
+String -> Pending
+---------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

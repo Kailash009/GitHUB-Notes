@@ -1,0 +1,125 @@
+Session in Dot Net Core:-
+--------------------------------
+>> Session is Global Management Protocol.
+>> Session can store any type of value.
+>> The default time of session is 20 Min.
+>> The value can be access of session throughout the whole applicaiton.
+-----------------------------------------------------------------------------
+Syntax:-
+--------------
+HttpContext.Session.SetString("Key","Value");
+-----------------------------------------------
+Syntax:-
+-------------
+HttpContext.Session.GetString("Key");
+-------------------------------------------------
+Set Session Time:-
+-------------------------
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(4); // Set Session time is 4 Min.
+});
+-----------------------------------------------------------------------
+    public IActionResult Index()
+        {
+            HttpContext.Session.SetString("abc", "rites@gmail.com");
+            //TempData["test"] = "Hello TempData!!!"; // contoller to view
+            //string[] sports = { "Cricket", "FootBall", "Batminton", "Hockey", "Tennis", "BasketBall" };
+            //ViewData["spt"] = sports;
+            //Employee emp = new Employee();
+            //emp.EID = 101;
+            //emp.Name = "Rahul";
+            //emp.Age = 19;
+            //emp.City = "Noida";
+            //emp.Salary = 4567.89;
+            //ViewData["employee"] = emp;
+            return View();
+        }
+        public IActionResult WriteCookie()
+        {
+            string email = HttpContext.Session.GetString("abc").ToString();
+            TempData["email"] = email;
+            return View();
+        }
+------------------
+Middleware:-
+----------------
+>> A middleware is a series of components that handle every httprequest and HttpResponse.
+>> A middleware is software components that are assembled into httprequest pipeline to handle every request and response.
+>> A middleware is also responsible to show how our application looks when there is an error.
+-----------------------------------------------------------------------------------------------
+Here we use following two methods-
+1. app.Run();
+2. app.Use();  -> To Run next middleware. Here you can pass next as parameter.
+---------------------------------------------
+var builder = WebApplication.CreateBuilder(args);
+var app = builder.Build();
+
+//app.MapGet("/", () => "Hello World!");
+
+app.Use(async (context, next) =>
+{
+    await context.Response.WriteAsync("Hello First MiddleWare!\n");
+    await next();
+});
+
+app.Use(async (context, next) =>
+{
+    await context.Response.WriteAsync("Hello Second MiddleWare!\n");
+    await next();
+});
+
+
+app.Use(async (context, next) =>
+{
+    await context.Response.WriteAsync("Hello Third MiddleWare!\n");
+    await next();
+});
+
+app.Run(async (context) =>
+{
+    await context.Response.WriteAsync("Hello Fourth MiddleWare!");
+});
+app.Run();
+--------------------------------------------------
+Routing  -> Pending
+--------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

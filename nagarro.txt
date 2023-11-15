@@ -1,0 +1,5 @@
+1. singleton,scoped and transient.
+2. static vs singleton.
+3. how to check string is null,string is empty or string is undefined in js.
+4. SOLID Principle.
+--------------------------------------------

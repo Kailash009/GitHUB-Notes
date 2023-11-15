@@ -1,0 +1,39 @@
+To Perform authentication and authorization we have following technique which are as follows -
+a) Identity.
+b) Cookies Based Authentication.
+c) JWT Authentication.
+------------------------------------------------------
+a) Identity.
+>> you can perform authentication and authorization in a very easy manner using Identity.
+-----------------------------------------------------------
+Filters in Core:-
+-------------------------
+>> Filter is used to perform some operations before or after action Method Execution.
+OnMethodExecuting -> It runs before action method execution.
+OnMethodExecuted -> It runs after action method execution.
+----------------------------------------------------------------------------------
+using Microsoft.AspNetCore.Mvc.Filters;
+
+namespace Batch12PMMohit.Filters
+{
+
+    public class CustomActionFilter : IActionFilter
+    {
+        public void OnActionExecuting(ActionExecutingContext context)
+        {
+            // Before Action Method.. Write Code Here....
+        }
+        public void OnActionExecuted(ActionExecutedContext context)
+        {
+            // After Action Method ... Write Code here...
+        }
+    }
+}
+-------
+builder.Services.AddMvc(options =>
+{
+    options.Filters.Add(new CustomActionFilter());
+or
+options.Filters.Add(typeof(CustomActionFilter));
+});
+-----------------------------
